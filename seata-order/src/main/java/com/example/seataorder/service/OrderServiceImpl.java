@@ -5,7 +5,9 @@ import com.example.seataorder.feign.InventoryClient;
 import com.example.seataorder.mapper.OrderMapper;
 import com.example.seataorder.model.Account;
 import com.example.seataorder.model.Order;
+import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 import io.seata.spring.annotation.GlobalTransactional;
+import org.dromara.hmily.annotation.Hmily;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +39,34 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @GlobalTransactional
+    @Hmily(confirmMethod = "confirm", cancelMethod = "cancel")
     public void createOrderFail() {
         Order order = this.setOrder();
-        order.setUserId(2L);
-        test(order);
+        this.orderMapper.insertSelective(order);
+        this.inventoryClient.removeInventory(order.getProductId(), order.getProductNumber());
+        Account account = new Account();
+        account.setUserId(order.getUserId());
+        account.setBalance(order.getProductPrice());
+        this.accountClient.deductionAccount(account);
     }
+
+    public void confirm(){
+        System.out.println("执行确认方法");
+    }
+
+    public void cancel(){
+        System.out.println("执行取消方法");
+    }
+
+
+
+
+
+
+
+
+
+
 
     private Order setOrder(){
         Order order = new Order();
@@ -55,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
         order.setUserId(1L);
         return order;
     }
+
 
     private void test(Order order) {
         this.orderMapper.insertSelective(order);

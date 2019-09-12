@@ -5,6 +5,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/seata-account?useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: 8083
   tomcat:
@@ -23,4 +25,18 @@ eureka:
 mybatis:
   mapper-locations: classpath:mappers/*Mapper.xml
   type-aliases-package: com.example.seataaccount.model
-
+org:
+  dromara:
+    hmily :
+      serializer : kryo
+      recoverDelayTime : 128
+      retryMax : 30
+      scheduledDelay : 128
+      scheduledThreadMax :  10
+      repositorySupport : db
+      started: false
+      hmilyDbConfig :
+        driverClassName  : com.mysql.jdbc.Driver
+        url :  jdbc:mysql://127.0.0.1:3306/tcc?useSSL=false&serverTimezone=UTC
+        username : root
+        password : 123456
