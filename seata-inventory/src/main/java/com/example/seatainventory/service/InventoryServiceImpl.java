@@ -2,14 +2,15 @@ package com.example.seatainventory.service;
 
 import com.example.seatainventory.model.Inventory;
 import com.example.seatainventory.mapper.InventoryMapper;
-import org.dromara.hmily.annotation.Hmily;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @Title
- * @Autor zxf
- * @Date 2019/9/7
+ * @Autor leavin
+ * @Date 2020/7/2
  */
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -18,7 +19,7 @@ public class InventoryServiceImpl implements InventoryService {
     private InventoryMapper inventoryMapper;
 
     @Override
-    @Hmily(confirmMethod = "confirm", cancelMethod = "cancel")
+    //@Hmily(confirmMethod = "confirm", cancelMethod = "cancel")
     public void removeInventory(Long id, Integer productNumber){
         Inventory record = this.inventoryMapper.selectByPrimaryKey(id);
         if(record.getProductInventory()<productNumber){
@@ -36,5 +37,15 @@ public class InventoryServiceImpl implements InventoryService {
 
     public void cancel(){
         System.out.println("执行取消方法");
+    }
+
+    @Override
+    public void addInventory(Long id, Integer productNumber){
+        Inventory inventory = new Inventory();
+        inventory.setId(id);
+        inventory.setProductInventory(productNumber);
+        inventory.setCreateTime(new Date());
+        inventory.setUpdateTime(new Date());
+        this.inventoryMapper.insert(inventory);
     }
 }

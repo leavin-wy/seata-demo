@@ -4,11 +4,11 @@
   <resultMap id="BaseResultMap" type="com.example.seatainventory.model.Inventory" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="product_inventory" property="productInventory" jdbcType="INTEGER" />
-    <result column="cerate_time" property="cerateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, product_inventory, cerate_time, update_time
+    id, product_inventory, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -21,9 +21,9 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.seatainventory.model.Inventory" >
-    insert into seata_inventory (id, product_inventory, cerate_time, 
+    insert into seata_inventory (id, product_inventory, create_time, 
       update_time)
-    values (#{id,jdbcType=BIGINT}, #{productInventory,jdbcType=INTEGER}, #{cerateTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{productInventory,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.seatainventory.model.Inventory" >
@@ -35,8 +35,8 @@
       <if test="productInventory != null" >
         product_inventory,
       </if>
-      <if test="cerateTime != null" >
-        cerate_time,
+      <if test="createTime != null" >
+        create_time,
       </if>
       <if test="updateTime != null" >
         update_time,
@@ -49,8 +49,8 @@
       <if test="productInventory != null" >
         #{productInventory,jdbcType=INTEGER},
       </if>
-      <if test="cerateTime != null" >
-        #{cerateTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
@@ -63,8 +63,8 @@
       <if test="productInventory != null" >
         product_inventory = #{productInventory,jdbcType=INTEGER},
       </if>
-      <if test="cerateTime != null" >
-        cerate_time = #{cerateTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -75,7 +75,7 @@
   <update id="updateByPrimaryKey" parameterType="com.example.seatainventory.model.Inventory" >
     update seata_inventory
     set product_inventory = #{productInventory,jdbcType=INTEGER},
-      cerate_time = #{cerateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

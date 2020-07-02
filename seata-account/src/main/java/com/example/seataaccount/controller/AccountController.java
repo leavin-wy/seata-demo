@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 
 /**
  * @Title
- * @Autor zxf
- * @Date 2019/9/7
+ * @Autor leavin
+ * @Date 2020/7/2
  */
 @RestController
 public class AccountController {
@@ -21,6 +21,21 @@ public class AccountController {
     @PostMapping("/account")
     public String deductionAccount(@RequestBody Account account){
         try {
+            this.accountService.deductionAccount(account);
+            return "succeed";
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/deAccount")
+    public String deAccount(@RequestParam(value = "balance") BigDecimal balance,
+                            @RequestParam(value = "userId")Long userId){
+        try {
+            Account account = new Account();
+            account.setBalance(balance);
+            account.setUserId(userId);
             this.accountService.deductionAccount(account);
             return "succeed";
         } catch (Exception e) {

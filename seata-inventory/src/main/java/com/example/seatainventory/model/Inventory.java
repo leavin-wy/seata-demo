@@ -7,7 +7,7 @@ public class Inventory {
 
     private Integer productInventory;
 
-    private Date cerateTime;
+    private Date createTime;
 
     private Date updateTime;
 
@@ -27,12 +27,12 @@ public class Inventory {
         this.productInventory = productInventory;
     }
 
-    public Date getCerateTime() {
-        return cerateTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCerateTime(Date cerateTime) {
-        this.cerateTime = cerateTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {

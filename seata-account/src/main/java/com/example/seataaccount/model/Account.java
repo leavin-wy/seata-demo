@@ -10,7 +10,7 @@ public class Account {
 
     private Long userId;
 
-    private Date createIme;
+    private Date createTime;
 
     private Date updateTime;
 
@@ -38,12 +38,12 @@ public class Account {
         this.userId = userId;
     }
 
-    public Date getCreateIme() {
-        return createIme;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateIme(Date createIme) {
-        this.createIme = createIme;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {

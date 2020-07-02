@@ -5,19 +5,18 @@ import com.example.seataorder.feign.InventoryClient;
 import com.example.seataorder.mapper.OrderMapper;
 import com.example.seataorder.model.Account;
 import com.example.seataorder.model.Order;
-import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 import io.seata.spring.annotation.GlobalTransactional;
-import org.dromara.hmily.annotation.Hmily;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Random;
 
 /**
  * @Title
- * @Autor zxf
- * @Date 2019/9/7
+ * @Autor leavin
+ * @Date 2020/7/2
  */
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,19 +34,27 @@ public class OrderServiceImpl implements OrderService {
     @GlobalTransactional
     public void createOrder() {
         Order order = this.setOrder();
-        test(order);
+        //新增订单
+        this.orderMapper.insertSelective(order);
+        //减库存
+        this.inventoryClient.removeInventory(order.getProductId(), order.getProductNumber());
+        Account account = new Account();
+        account.setUserId(order.getUserId());
+        account.setBalance(order.getProductPrice());
+        //扣账户金额
+        this.accountClient.deductionAccount(account);
     }
 
     @Override
-    @Hmily(confirmMethod = "confirm", cancelMethod = "cancel")
+    //@Hmily(confirmMethod = "confirm", cancelMethod = "cancel")
     public void createOrderFail() {
-        Order order = this.setOrder();
+        /*Order order = this.setOrder();
         this.orderMapper.insertSelective(order);
         this.inventoryClient.removeInventory(order.getProductId(), order.getProductNumber());
         Account account = new Account();
         account.setUserId(order.getUserId());
         account.setBalance(order.getProductPrice());
-        this.accountClient.deductionAccount(account);
+        this.accountClient.deductionAccount(account);*/
     }
 
     public void confirm(){
@@ -58,16 +65,6 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("执行取消方法");
     }
 
-
-
-
-
-
-
-
-
-
-
     private Order setOrder(){
         Order order = new Order();
         Random random = new Random();
@@ -77,16 +74,7 @@ public class OrderServiceImpl implements OrderService {
         order.setProductPrice(new BigDecimal(1));
         order.setProductNumber(1);
         order.setUserId(1L);
+        order.setCreateTime(new Date());
         return order;
-    }
-
-
-    private void test(Order order) {
-        this.orderMapper.insertSelective(order);
-        this.inventoryClient.removeInventory(order.getProductId(), order.getProductNumber());
-        Account account = new Account();
-        account.setUserId(order.getUserId());
-        account.setBalance(order.getProductPrice());
-        this.accountClient.deductionAccount(account);
     }
 }
