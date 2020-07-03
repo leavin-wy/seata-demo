@@ -70,11 +70,8 @@
       <if test="balance != null" >
         balance = #{balance,jdbcType=DECIMAL},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=DATE},
       </if>
     </set>
     where user_id = #{userId,jdbcType=BIGINT}

@@ -8,10 +8,10 @@
     <result column="product_number" property="productNumber" jdbcType="INTEGER" />
     <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="updata_time" property="updataTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, product_id, user_id, product_number, product_price, create_time, updata_time
+    id, product_id, user_id, product_number, product_price, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -26,10 +26,10 @@
   <insert id="insert" parameterType="com.example.seataorder.model.Order" >
     insert into seata_order (id, product_id, user_id, 
       product_number, product_price, create_time, 
-      updata_time)
+      update_time)
     values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
       #{productNumber,jdbcType=INTEGER}, #{productPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updataTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.seataorder.model.Order" >
     insert into seata_order
@@ -52,8 +52,8 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="updataTime != null" >
-        updata_time,
+      <if test="updateTime != null" >
+        update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -75,8 +75,8 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updataTime != null" >
-        #{updataTime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -98,8 +98,8 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updataTime != null" >
-        updata_time = #{updataTime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -111,7 +111,7 @@
       product_number = #{productNumber,jdbcType=INTEGER},
       product_price = #{productPrice,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      updata_time = #{updataTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

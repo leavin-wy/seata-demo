@@ -10,5 +10,5 @@ import java.math.BigDecimal;
  * @Date 2020/7/2
  */
 public interface AccountService {
-    void deductionAccount(Account account);
+    void deductionAccount(Account account,Long orderId);
 }

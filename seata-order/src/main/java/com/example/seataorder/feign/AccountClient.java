@@ -4,6 +4,8 @@ import com.example.seataorder.model.Account;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Map;
+
 /**
  * @Title
  * @Autor leavin
@@ -14,5 +16,5 @@ public interface AccountClient {
 
     //@Hmily
     @GetMapping("/account")
-    public String deductionAccount(Account account);
+    public String deductionAccount(Map<String, Object> param);
 }

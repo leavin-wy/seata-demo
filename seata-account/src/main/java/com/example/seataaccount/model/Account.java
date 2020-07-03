@@ -1,9 +1,10 @@
 package com.example.seataaccount.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Account {
+public class Account implements Serializable {
     private Long id;
 
     private BigDecimal balance;

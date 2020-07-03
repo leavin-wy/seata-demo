@@ -16,7 +16,7 @@ public class Order {
 
     private Date createTime;
 
-    private Date updataTime;
+    private Date updateTime;
 
     public Long getId() {
         return id;
@@ -66,11 +66,11 @@ public class Order {
         this.createTime = createTime;
     }
 
-    public Date getUpdataTime() {
-        return updataTime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdataTime(Date updataTime) {
-        this.updataTime = updataTime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

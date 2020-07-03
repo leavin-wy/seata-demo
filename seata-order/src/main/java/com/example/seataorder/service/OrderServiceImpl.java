@@ -5,12 +5,18 @@ import com.example.seataorder.feign.InventoryClient;
 import com.example.seataorder.mapper.OrderMapper;
 import com.example.seataorder.model.Account;
 import com.example.seataorder.model.Order;
+import io.seata.common.XID;
+import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -20,6 +26,7 @@ import java.util.Random;
  */
 @Service
 public class OrderServiceImpl implements OrderService {
+    private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     @Autowired
     private OrderMapper orderMapper;
@@ -38,11 +45,15 @@ public class OrderServiceImpl implements OrderService {
         this.orderMapper.insertSelective(order);
         //减库存
         this.inventoryClient.removeInventory(order.getProductId(), order.getProductNumber());
-        Account account = new Account();
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId",order.getUserId());
+        param.put("balance",order.getProductPrice());
+        param.put("orderId",order.getId());
+        /*Account account = new Account();
         account.setUserId(order.getUserId());
-        account.setBalance(order.getProductPrice());
+        account.setBalance(order.getProductPrice());*/
         //扣账户金额
-        this.accountClient.deductionAccount(account);
+        this.accountClient.deductionAccount(param);
     }
 
     @Override
@@ -55,6 +66,17 @@ public class OrderServiceImpl implements OrderService {
         account.setUserId(order.getUserId());
         account.setBalance(order.getProductPrice());
         this.accountClient.deductionAccount(account);*/
+    }
+
+    @Override
+    public void updateOrder(String orderId){
+        String xid = RootContext.getXID();
+        logger.info("=========更新订单信息开始，xid={}=========", xid);
+        Order order = new Order();
+        order.setId(Long.valueOf(orderId));
+        order.setUpdateTime(new Date());
+        this.orderMapper.updateByPrimaryKeySelective(order);
+        logger.info("=========更新订单信息结束，xid={}=========", xid);
     }
 
     public void confirm(){

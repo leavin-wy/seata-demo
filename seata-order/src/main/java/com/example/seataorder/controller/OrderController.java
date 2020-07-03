@@ -2,9 +2,7 @@ package com.example.seataorder.controller;
 
 import com.example.seataorder.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -27,6 +25,11 @@ public class OrderController {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/updateOrder")
+    public void updateOrder(@RequestParam(value = "orderId") String orderId){
+        this.orderService.updateOrder(orderId);
     }
 
     @GetMapping("/order/fail")

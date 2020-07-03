@@ -9,4 +9,6 @@ public interface OrderService {
     void createOrder();
 
     void createOrderFail();
+
+     void updateOrder(String orderId);
 }
