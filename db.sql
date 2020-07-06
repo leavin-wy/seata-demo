@@ -58,6 +58,7 @@ CREATE TABLE `seata_account`(
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` bigint(11) DEFAULT NULL COMMENT '用户id',
   `balance` decimal(10,0) DEFAULT NULL COMMENT '金额',
+  `free_balance` decimal(10,0) DEFAULT NULL COMMENT '冻结金额',
   `create_time` date ,
   `update_time` date ,
   PRIMARY KEY (`id`)
