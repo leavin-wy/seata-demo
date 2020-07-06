@@ -4,12 +4,13 @@
   <resultMap id="BaseResultMap" type="com.example.seataaccount.model.Account" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="free_balance" property="freeBalance" jdbcType="DECIMAL" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, balance, user_id, create_time, update_time
+    id, balance,free_balance, user_id, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -69,6 +70,12 @@
     <set >
       <if test="balance != null" >
         balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="freeBalance != null" >
+        free_balance = #{freeBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=DATE},

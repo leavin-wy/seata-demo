@@ -11,4 +11,6 @@ public interface OrderService {
     void createOrderFail();
 
      void updateOrder(String orderId);
+
+     void createOrderByTcc();
 }

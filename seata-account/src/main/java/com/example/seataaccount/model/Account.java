@@ -7,7 +7,9 @@ import java.util.Date;
 public class Account implements Serializable {
     private Long id;
 
-    private BigDecimal balance;
+    private BigDecimal balance;//账户金额
+
+    private BigDecimal freeBalance;//账户冻结金额
 
     private Long userId;
 
@@ -29,6 +31,14 @@ public class Account implements Serializable {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public BigDecimal getFreeBalance() {
+        return freeBalance;
+    }
+
+    public void setFreeBalance(BigDecimal freeBalance) {
+        this.freeBalance = freeBalance;
     }
 
     public Long getUserId() {

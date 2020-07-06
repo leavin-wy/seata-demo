@@ -7,11 +7,13 @@ import com.example.seataorder.model.Account;
 import com.example.seataorder.model.Order;
 import io.seata.common.XID;
 import io.seata.core.context.RootContext;
+import io.seata.rm.tcc.api.BusinessActionContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -38,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
     private AccountClient accountClient;
 
     @Override
+    //@Transactional
     @GlobalTransactional
     public void createOrder() {
         Order order = this.setOrder();
@@ -54,6 +57,37 @@ public class OrderServiceImpl implements OrderService {
         account.setBalance(order.getProductPrice());*/
         //扣账户金额
         this.accountClient.deductionAccount(param);
+    }
+
+    @Override
+    //@Transactional
+    @GlobalTransactional//开启全局事务（重点） 使用 seata 的全局事务
+    public void createOrderByTcc() {
+        Order order = this.setOrder();
+        //新增订单
+        this.orderMapper.insertSelective(order);
+        //https://github.com/seata/seata-samples/blob/master/tcc/transfer-tcc-sample/src/main/java/io/seata/samples
+        //账户扣钱参与者
+        Map<String, Object> firstParam = new HashMap<>();
+        firstParam.put("userId",order.getUserId());
+        firstParam.put("balance",order.getProductPrice());
+        firstParam.put("orderId",order.getId());
+        //扣账户金额
+        boolean first = this.accountClient.firstTccAccount(firstParam);
+        //扣钱参与者，一阶段失败; 回滚本地事务和分布式事务
+        if(!first){
+            throw new RuntimeException("===========扣钱处理失败===========");
+        }
+        //账户收钱参与者
+        Map<String, Object> secondParam = new HashMap<>();
+        secondParam.put("userId",2L);
+        secondParam.put("balance",order.getProductPrice());
+        secondParam.put("orderId",order.getId());
+        boolean second = this.accountClient.secondTccAccount(secondParam);
+        //收钱参与者，一阶段失败; 回滚本地事务和分布式事务
+        if(!second){
+            throw new RuntimeException("===========收钱处理失败===========");
+        }
     }
 
     @Override

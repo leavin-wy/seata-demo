@@ -22,6 +22,16 @@ public class OrderController {
             this.orderService.createOrder();
             return "succeed";
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/createOrderByTcc")
+    public String createOrderByTcc(){
+        try {
+            this.orderService.createOrderByTcc();
+            return "succeed";
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }

@@ -16,5 +16,11 @@ public interface AccountClient {
 
     //@Hmily
     @GetMapping("/account")
-    public String deductionAccount(Map<String, Object> param);
+    String deductionAccount(Map<String, Object> param);
+
+    @GetMapping("/firstTccAccount")
+    boolean firstTccAccount(Map<String, Object> param);
+
+    @GetMapping("/secondTccAccount")
+    boolean secondTccAccount(Map<String, Object> param);
 }
