@@ -40,7 +40,6 @@ public class OrderServiceImpl implements OrderService {
     private AccountClient accountClient;
 
     @Override
-    //@Transactional
     @GlobalTransactional
     public void createOrder() {
         Order order = this.setOrder();
@@ -60,13 +59,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    //@Transactional
     @GlobalTransactional//开启全局事务（重点） 使用 seata 的全局事务
     public void createOrderByTcc() {
         Order order = this.setOrder();
         //新增订单
         this.orderMapper.insertSelective(order);
-        //https://github.com/seata/seata-samples/blob/master/tcc/transfer-tcc-sample/src/main/java/io/seata/samples
+        //int i = 1/0;
         //账户扣钱参与者
         Map<String, Object> firstParam = new HashMap<>();
         firstParam.put("userId",order.getUserId());
