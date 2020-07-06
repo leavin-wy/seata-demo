@@ -64,6 +64,10 @@ CREATE TABLE `seata_account`(
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+INSERT INTO `seata_account` (`id`, `user_id`, `free_balance`, `balance`, `create_time`, `update_time`) VALUES (1, 1, 0, 100, '2020-7-2', '2020-7-3');
+INSERT INTO `seata_account` (`id`, `user_id`, `free_balance`, `balance`, `create_time`, `update_time`) VALUES (2, 2, 0, 100, NULL, NULL);
+
+
 CREATE TABLE `seata_order` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(11) DEFAULT NULL COMMENT '用户id',
@@ -82,6 +86,11 @@ CREATE TABLE `seata_inventory` (
   `update_time` date ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `seata_inventory` (`id`, `product_inventory`, `create_time`, `update_time`) VALUES (2, 92, '2020-7-2', '2020-7-2');
+INSERT INTO `seata_inventory` (`id`, `product_inventory`, `create_time`, `update_time`) VALUES (3, 50, '2020-7-2', '2020-7-2');
+INSERT INTO `seata_inventory` (`id`, `product_inventory`, `create_time`, `update_time`) VALUES (4, 50, '2020-7-2', '2020-7-2');
+
 
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
